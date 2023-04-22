@@ -8,7 +8,6 @@ import { Configuration, OpenAIApi } from 'openai';
 if (typeof window !== 'undefined') {
   // browser code
 
-
   const accordian = document.querySelector('.accordian');
 
   accordian.addEventListener('click', (e) => {
@@ -67,7 +66,7 @@ export default function Home() {
       .then((res) => {
         console.log(res.data.choices[0].message.content);
         let totalnews = res.data.choices[0].message.content;
-        console.log(typeof totalnews);
+        console.log(totalnews);
         let news1 = '';
         let news1Title = '';
         let news2 = '';
