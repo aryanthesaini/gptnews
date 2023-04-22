@@ -1,68 +1,15 @@
 import { useEffect, useState } from 'react';
 import Head from 'next/head';
-<<<<<<< HEAD
 import { fetchNews } from '@/api';
 import NewsItem from '@/components/NewsItem';
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
-=======
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
-import { Configuration, OpenAIApi } from 'openai';
-
-if (typeof window !== 'undefined') {
-  // browser code
-
-  const accordian = document.querySelector('.accordian');
-
-  accordian.addEventListener('click', (e) => {
-    const activePanel = e.target.closest('.accordian-panel');
-    if (!activePanel) return;
-    toggleAccordian(activePanel);
-  });
-
-  function toggleAccordian(panelToActivate) {
-    const buttons = panelToActivate.parentElement.querySelectorAll('button');
-
-    const contents =
-      panelToActivate.parentElement.querySelectorAll('.accordian-content');
-
-    buttons.forEach((button) => {
-      button.setAttribute('aria-expanded', false);
-    });
-    contents.forEach((content) => {
-      content.setAttribute('aria-hidden', true);
-    });
-
-    panelToActivate.querySelector('button').setAttribute('aria-expanded', true);
-
-    panelToActivate
-      .querySelector('.accordian-content')
-      .setAttribute('aria-hidden', false);
-  }
-}
-
-export default function Home() {
-  // console.log(process.env.NEXT_PUBLIC_API_KEY);
-  const [newsone, setNewsone] = useState('');
-  const [newsoneTitle, setNewsoneTitle] = useState('Please wait...');
-  const [newstwo, setNewstwo] = useState('');
-  const [newstwoTitle, setNewstwoTitle] = useState('Please wait...');
-  const [newsthree, setNewsthree] = useState('');
-  const [newsthreeTitle, setNewsthreeTitle] = useState('Please wait...');
-  const [newsfour, setNewsfour] = useState('');
-  const [newsfourTitle, setNewsfourTitle] = useState('Please wait...');
-  const [fetch, setFetch] = useState(false);
->>>>>>> 9a28fe4d225e960cfc1e25c617366bcbe93efe1a
 
   useEffect(() => {
     if (isLoading || list.length) return;
 
-<<<<<<< HEAD
     (async () => {
       setIsLoading(true);
       try {
@@ -77,27 +24,6 @@ export default function Home() {
       }
     })();
   }, [isLoading, list.length]);
-=======
-    openai
-      .createChatCompletion({
-        model: 'gpt-3.5-turbo',
-        messages: [
-          { role: 'user', content: 'Tell me 4 positive news in brief' },
-        ],
-      })
-      .then((res) => {
-        // console.log(res.data.choices[0].message.content);
-        let totalnews = res.data.choices[0].message.content;
-        // console.log(totalnews);
-        let news1 = '';
-        let news1Title = '';
-        let news2 = '';
-        let news2Title = '';
-        let news3 = '';
-        let news3Title = '';
-        let news4 = '';
-        let news4Title = '';
->>>>>>> 9a28fe4d225e960cfc1e25c617366bcbe93efe1a
 
   useEffect(() => {
     if (typeof window !== 'undefined' || !document) return;
