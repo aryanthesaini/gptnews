@@ -40,13 +40,13 @@ if (typeof window !== 'undefined') {
 export default function Home() {
   // console.log(process.env.NEXT_PUBLIC_API_KEY);
   const [newsone, setNewsone] = useState('');
-  const [newsoneTitle, setNewsoneTitle] = useState('Please wait...');
+  const [newsoneTitle, setNewsoneTitle] = useState('Please wait....');
   const [newstwo, setNewstwo] = useState('');
-  const [newstwoTitle, setNewstwoTitle] = useState('Please wait...');
+  const [newstwoTitle, setNewstwoTitle] = useState('Please wait....');
   const [newsthree, setNewsthree] = useState('');
-  const [newsthreeTitle, setNewsthreeTitle] = useState('Please wait...');
+  const [newsthreeTitle, setNewsthreeTitle] = useState('Please wait....');
   const [newsfour, setNewsfour] = useState('');
-  const [newsfourTitle, setNewsfourTitle] = useState('Please wait...');
+  const [newsfourTitle, setNewsfourTitle] = useState('Please wait....');
   const [fetch, setFetch] = useState(false);
 
   useEffect(() => {
