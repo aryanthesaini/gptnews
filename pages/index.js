@@ -16,8 +16,7 @@ export default function Home() {
         const data = await fetchNews();
         const news = data.split('\n').filter(Boolean);
         setList(news);
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
@@ -26,23 +25,25 @@ export default function Home() {
   }, [isLoading, list.length]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' || !document) return;
+    if (typeof window === 'undefined' || !document) return;
 
     function toggleAccordian(panelToActivate) {
       const buttons = panelToActivate.parentElement.querySelectorAll('button');
-  
+
       const contents =
         panelToActivate.parentElement.querySelectorAll('.accordian-content');
-  
+
       buttons.forEach((button) => {
         button.setAttribute('aria-expanded', false);
       });
       contents.forEach((content) => {
         content.setAttribute('aria-hidden', true);
       });
-  
-      panelToActivate.querySelector('button').setAttribute('aria-expanded', true);
-  
+
+      panelToActivate
+        .querySelector('button')
+        .setAttribute('aria-expanded', true);
+
       panelToActivate
         .querySelector('.accordian-content')
         .setAttribute('aria-hidden', false);
@@ -53,15 +54,18 @@ export default function Home() {
       if (!activePanel) return;
       toggleAccordian(activePanel);
     };
+    document.addEventListener('DOMContentLoaded', () => {
+      const accordian = document.querySelector('.accordian');
+      accordian.addEventListener('click', clickHandler);
+    });
 
-    const accordian = document.querySelector('.accordian');
-    accordian.addEventListener('click', clickHandler);
-
-    return () => {
-      accordian.removeEventListener('click', clickHandler);
-    }
-  }, [])
-
+    document.addEventListener('DOMContentLoaded', () => {
+      return () => {
+        const accordian = document.querySelector('.accordian');
+        accordian.removeEventListener('click', clickHandler);
+      };
+    });
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -83,7 +87,6 @@ export default function Home() {
         {list.map((body, index) => (
           <NewsItem key={index} index={index} body={body} />
         ))}
-
       </div>
     </>
   );
