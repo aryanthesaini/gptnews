@@ -8,6 +8,7 @@ import { Configuration, OpenAIApi } from 'openai';
 if (typeof window !== 'undefined') {
   // browser code
 
+
   const accordian = document.querySelector('.accordian');
 
   accordian.addEventListener('click', (e) => {
@@ -38,6 +39,7 @@ if (typeof window !== 'undefined') {
 }
 
 export default function Home() {
+  console.log(process.env.NEXT_PUBLIC_API_KEY);
   const [newsone, setNewsone] = useState('');
   const [newsoneTitle, setNewsoneTitle] = useState('Please wait...');
   const [newstwo, setNewstwo] = useState('');
@@ -51,7 +53,7 @@ export default function Home() {
   useEffect(() => {
     const openai = new OpenAIApi(
       new Configuration({
-        apiKey: process.env.API_KEY,
+        apiKey: process.env.NEXT_PUBLIC_API_KEY,
       })
     );
 
