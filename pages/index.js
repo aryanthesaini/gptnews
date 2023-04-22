@@ -38,7 +38,7 @@ if (typeof window !== 'undefined') {
 }
 
 export default function Home() {
-  console.log(process.env.NEXT_PUBLIC_API_KEY);
+  // console.log(process.env.NEXT_PUBLIC_API_KEY);
   const [newsone, setNewsone] = useState('');
   const [newsoneTitle, setNewsoneTitle] = useState('Please wait...');
   const [newstwo, setNewstwo] = useState('');
@@ -64,9 +64,9 @@ export default function Home() {
         ],
       })
       .then((res) => {
-        console.log(res.data.choices[0].message.content);
+        // console.log(res.data.choices[0].message.content);
         let totalnews = res.data.choices[0].message.content;
-        console.log(totalnews);
+        // console.log(totalnews);
         let news1 = '';
         let news1Title = '';
         let news2 = '';
