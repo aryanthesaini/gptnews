@@ -105,3 +105,146 @@ a {
     color-scheme: dark;
   }
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue';
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
+
+h1 {
+  padding-left: 3rem;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.wrapper {
+  max-width: 50rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+.accordian {
+  --_button-size: 3rem;
+  --_panel-padding: 0.75rem;
+  --_panel-gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  contain: content;
+  /* demo only */
+  margin-top: 2rem;
+}
+
+@media (min-width: 45em) {
+  .accordian {
+    flex-direction: row;
+    height: 30rem;
+  }
+}
+.accordian * {
+  margin: 0;
+}
+
+.accordian-panel {
+  position: relative;
+  isolation: isolate;
+  flex-basis: calc((var(--_panel-padding) * 2) + var(--_button-size));
+  overflow: hidden;
+  padding: var(--_panel-padding);
+  padding-right: calc(var(--_panel-padding) * 4);
+  border-radius: calc(((var(--_panel-padding) * 2) + var(--_button-size) / 2));
+  /* overflow-y: scroll; */
+  transition: flex-basis 500ms;
+}
+.accordian-panel:has([aria-expanded='true']) {
+  flex-basis: clamp(15rem, 40vh, 20rem);
+  flex-grow: 1;
+}
+
+.accordian-trigger {
+  outline: 0;
+}
+.accordian-panel:focus-within {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+
+.accordian-content > p {
+  transform: translateY(2rem);
+  opacity: 0;
+  transition: transform 500ms 500ms, opacity 500ms 500ms;
+  margin-left: calc(var(--_button-size) + var(--_panel-gap));
+  padding-top: 1rem;
+}
+
+.accordian-panel:has([aria-expanded='true']) p {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.accordian-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+}
+
+@media (max-width: 44.999em) {
+  .accordian-title::after {
+    left: calc((var(--_panel-gap) + var(--_button-size)) * -1);
+    content: '';
+    position: absolute;
+    width: calc(100% + (var(--_button-size) * 2));
+    height: calc(100% + (var(--_button-size) * 0.5));
+    background: hsl(0 0% 0% /0.5);
+    z-index: -1;
+    border-radius: 100vw;
+  }
+}
+
+.accordian-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+
+  transition: filter 500ms;
+}
+.accordian-panel:has([aria-expanded='true']) .accordian-image {
+  filter: brightness(0.4);
+}
+
+.accordian-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--_panel-gap);
+  flex-direction: row-reverse;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.accordian-icon {
+  background: hsl(0 0% 0% /0.25);
+  width: var(--_button-size);
+  aspect-ratio: 1/1;
+  padding: 0.45rem;
+  border-radius: 50%;
+  z-index: 10;
+}
