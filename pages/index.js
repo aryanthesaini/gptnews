@@ -64,8 +64,8 @@ export default function Home() {
         const accordian = document.querySelector('.accordian');
         accordian.removeEventListener('click', clickHandler);
       };
-    });
-  }, []);
+    })
+  },[]);
 
   if (isLoading) {
     return <div>Loading...</div>;
