@@ -7,6 +7,6 @@ module.exports = nextConfig;
 
 module.exports = {
   env: {
-    API_KEY: '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',
+    API_KEY: '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',
   },
 };

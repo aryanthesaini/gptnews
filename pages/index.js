@@ -1,38 +1,12 @@
 import Head from 'next/head';
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import { Configuration, OpenAIApi } from 'openai';
 
-let news = '';
-
-useEffect(() => {
-  const openai = new OpenAIApi(
-    new Configuration({
-      apiKey: process.env.API_KEY,
-    })
-  );
-
-  openai
-    .createChatCompletion({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: 'Tell me some positive news' }],
-    })
-    .then((res) => {
-      console.log(res.data.choices[0].message.content);
-      news = res.data.choices[0].message.content;
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-}, []);
-
-// console.log(process.env.API_KEY);
-
 if (typeof window !== 'undefined') {
   // browser code
-  console.log(news);
 
   const accordian = document.querySelector('.accordian');
 
@@ -64,6 +38,104 @@ if (typeof window !== 'undefined') {
 }
 
 export default function Home() {
+  const [newsone, setNewsone] = useState('');
+  const [newsoneTitle, setNewsoneTitle] = useState('Please wait...');
+  const [newstwo, setNewstwo] = useState('');
+  const [newstwoTitle, setNewstwoTitle] = useState('Please wait...');
+  const [newsthree, setNewsthree] = useState('');
+  const [newsthreeTitle, setNewsthreeTitle] = useState('Please wait...');
+  const [newsfour, setNewsfour] = useState('');
+  const [newsfourTitle, setNewsfourTitle] = useState('Please wait...');
+  const [fetch, setFetch] = useState(false);
+
+  useEffect(() => {
+    const openai = new OpenAIApi(
+      new Configuration({
+        apiKey: process.env.API_KEY,
+      })
+    );
+
+    openai
+      .createChatCompletion({
+        model: 'gpt-3.5-turbo',
+        messages: [
+          { role: 'user', content: 'Tell me 4 positive news in brief' },
+        ],
+      })
+      .then((res) => {
+        console.log(res.data.choices[0].message.content);
+        let totalnews = res.data.choices[0].message.content;
+        console.log(typeof totalnews);
+        let news1 = '';
+        let news1Title = '';
+        let news2 = '';
+        let news2Title = '';
+        let news3 = '';
+        let news3Title = '';
+        let news4 = '';
+        let news4Title = '';
+
+        for (let i = 0; i < totalnews.length && totalnews[i] != 2; i++) {
+          news1 += totalnews[i];
+        }
+        setNewsone(news1);
+        news1Title = news1.slice(2, 25);
+        news1Title += '...';
+        setNewsoneTitle(news1Title);
+
+        for (
+          let i = news1.length;
+          i < totalnews.length && totalnews[i] != 3;
+          i++
+        ) {
+          news2 += totalnews[i];
+        }
+        setNewstwo(news2);
+        news2Title = news2.slice(2, 25);
+        news2Title += '...';
+        setNewstwoTitle(news2Title);
+
+        for (
+          let i = news1.length + news2.length;
+          i < totalnews.length && totalnews[i] != 4;
+          i++
+        ) {
+          news3 += totalnews[i];
+        }
+        setNewsthree(news3);
+        news3Title = news3.slice(2, 25);
+        news3Title += '...';
+        setNewsthreeTitle(news3Title);
+
+        for (
+          let i = news1.length + news2.length + news3.length;
+          i < totalnews.length;
+          i++
+        ) {
+          news4 += totalnews[i];
+        }
+        setNewsfour(news4);
+
+        setNewsfourTitle(news4Title);
+        news4Title = news4.slice(2, 25);
+        news4Title += '...';
+        setNewsfourTitle(news4Title);
+
+        setFetch(true);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
+
+  // if (newsone == 'hi') {
+  //   return (
+  //     <>
+  //       <h1>Let's wait till we fetch some good news for you</h1>
+  //       <h3>Look at this cool animation though </h3>
+  //     </>
+  //   );
+  // }
   return (
     <>
       <Head>
@@ -74,6 +146,9 @@ export default function Home() {
       </Head>
       <div className='wrapper'>
         <h1>GOOD NEWS</h1>
+
+        <h2>Refresh for more good news around the globe</h2>
+
         <div className='accordian'>
           <div className='accordian-panel'>
             <h2 id='panel1-heading'>
@@ -82,7 +157,7 @@ export default function Home() {
                 aria-controls='panel1-content'
                 aria-expanded='true'>
                 <span className='accordian-title' id='panel1-title'>
-                  Young Indian Activists
+                  {newsoneTitle}
                 </span>
                 <svg aria-hidden='true' className='accordian-icon'>
                   {/* <use xlink:href='#news-svgrepo-com'></use> */}
@@ -95,10 +170,10 @@ export default function Home() {
               aria-labelledby='panel1-heading'
               aria-hidden='false'
               role='region'>
-              <p>{news}</p>
+              <p>{newsone}</p>
               <img
                 className='accordian-image'
-                src='https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y292aWR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60'
+                src='https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bmV3c3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60'
                 alt='covid-19'
               />
             </div>
@@ -110,7 +185,7 @@ export default function Home() {
                 aria-controls='panel2-content'
                 aria-expanded='false'>
                 <span className='accordian-title' id='panel1-title'>
-                  Biodegradable Plastic
+                  {newstwoTitle}
                 </span>
                 <svg aria-hidden='true' className='accordian-icon'>
                   {/* <use xlink:href='#news-svgrepo-com'></use> */}
@@ -123,16 +198,10 @@ export default function Home() {
               aria-labelledby='panel2-heading'
               aria-hidden='false'
               role='region'>
-              <p>
-                In the United States, a group of high school students in
-                California have developed a biodegradable alternative to plastic
-                wrap made from avocado pits. The product is not only
-                eco-friendly, but also helps to reduce food waste by keeping
-                produce fresher for longer.
-              </p>
+              <p>{newstwo}</p>
               <img
                 className='accordian-image'
-                src='https://images.unsplash.com/photo-1531326537431-6197cac3795b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8YmlvZGVncmFkYWJsZSUyMHBsYXN0aWN8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60'
+                src='https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80'
                 alt='a camera'
               />
             </div>
@@ -144,7 +213,7 @@ export default function Home() {
                 aria-controls='panel1-content'
                 aria-expanded='false'>
                 <span className='accordian-title' id='panel3-title'>
-                  Treatment for Alzheimer's
+                  {newsthreeTitle}
                 </span>
                 <svg aria-hidden='true' className='accordian-icon'>
                   {/* <use xlink:href='#news-svgrepo-com'></use> */}
@@ -157,16 +226,10 @@ export default function Home() {
               aria-labelledby='panel3-heading'
               aria-hidden='false'
               role='region'>
-              <p>
-                A team of researchers at the University of California have
-                developed a groundbreaking new treatment for Alzheimer's
-                disease. The treatment involves using ultrasound to open up the
-                blood-brain barrier and allow antibodies to enter the brain and
-                clear out toxic proteins that cause Alzheimer's.
-              </p>
+              <p>{newsthree}</p>
               <img
                 className='accordian-image'
-                src='https://images.unsplash.com/photo-1565615833231-e8c91a38a012?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YWx6aGVpbWVyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60'
+                src='https://images.unsplash.com/photo-1503694978374-8a2fa686963a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1469&q=80'
                 alt='a gamepad'
               />
             </div>
@@ -178,7 +241,7 @@ export default function Home() {
                 aria-controls='panel4-content'
                 aria-expanded='false'>
                 <span className='accordian-title' id='panel4-title'>
-                  Girls granted scholarships
+                  {newsfourTitle}
                 </span>
                 <svg aria-hidden='true' className='accordian-icon'>
                   {/* <use xlink:href='#news-svgrepo-com'></use> */}
@@ -191,16 +254,10 @@ export default function Home() {
               aria-labelledby='panel4-heading'
               aria-hidden='false'
               role='region'>
-              <p>
-                A group of Afghan girls who were forced to flee their country
-                due to the Taliban's takeover have been granted scholarships to
-                attend schools in the United States. The girls, who were part of
-                an all-female robotics team in Afghanistan, will now have the
-                opportunity to continue their education and pursue their dreams.
-              </p>
+              <p>{newsfour}</p>
               <img
                 className='accordian-image'
-                src='https://images.unsplash.com/photo-1464582883107-8adf2dca8a9f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGdpcmxzJTIwc3R1ZGVudHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60'
+                src='https://images.unsplash.com/photo-1526470608268-f674ce90ebd4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80'
               />
             </div>
           </div>
